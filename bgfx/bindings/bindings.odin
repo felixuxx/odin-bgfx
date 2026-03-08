@@ -14,7 +14,7 @@ package bgfx_bindings
 
 import "core:c"
 
-when ODIN_OS == "windows" {
+when ODIN_OS == .Windows {
     foreign import lib {
         "lib/bgfx.lib",
         "lib/bimg.lib",
@@ -23,6 +23,19 @@ when ODIN_OS == "windows" {
         "system:user32.lib",
         "system:gdi32.lib",
         "system:shell32.lib",
+    }
+}
+
+when ODIN_OS == .Linux {
+    foreign import lib {
+        "lib/bgfx.so",
+        "lib/bimg.so",
+        "lib/bimg_decode.so",
+        "lib/bx.so",
+        "system:dl",
+        "system:pthread",
+        "system:rt",
+        "system:m",
     }
 }
 
@@ -35,14 +48,14 @@ callback_interface_t :: struct {
 }
 callback_vtbl_t :: struct {
     fatal                  : proc "c" (_this: ^callback_interface_t, _filePath: cstring, _line: c.uint16_t, _code: fatal_t, _str: cstring),
-    trace_vargs            : proc "c" (_this: ^callback_interface_t, _filePath: cstring, _line: c.uint16_t, _format: cstring, _argList: ..cstring),
+    trace_vargs            : proc "c" (_this: ^callback_interface_t, _filePath: cstring, _line: c.uint16_t, _format: cstring, _argList: ^c.va_list),
     profiler_begin         : proc "c" (_this: ^callback_interface_t, _name: cstring, _abgr: c.uint32_t, _filePath: cstring, _line: c.uint16_t),
     profiler_begin_literal : proc "c" (_this: ^callback_interface_t, _name: cstring, _abgr: c.uint32_t, _filePath: cstring, _line: c.uint16_t),
     profiler_end           : proc "c" (_this: ^callback_interface_t),
     cache_read_size        : proc "c" (_this: ^callback_interface_t, _id: c.uint64_t) -> c.uint32_t,
     cache_read             : proc "c" (_this: ^callback_interface_t, _id: c.uint64_t, _data: rawptr, _size: c.uint32_t) -> c.bool,
     cache_write            : proc "c" (_this: ^callback_interface_t, _id: c.uint64_t, _data: rawptr, _size: c.uint32_t),
-    screen_shot            : proc "c" (_this: ^callback_interface_t, _filePath: cstring, _width, _height, _pitch: c.uint32_t, data: rawptr, _size: c.uint32_t, _yflip: c.bool),
+    screen_shot            : proc "c" (_this: ^callback_interface_t, _filePath: cstring, _width, _height, _pitch: c.uint32_t, _format: texture_format_t, _data: rawptr, _size: c.uint32_t, _yflip: c.bool),
     capture_begin          : proc "c" (_this: ^callback_interface_t, _width, _height, _pitch: c.uint32_t, _format: texture_format_t, _yflip: c.bool),
     capture_end            : proc "c" (_this: ^callback_interface_t),
     capture_frame          : proc "c" (_this: ^callback_interface_t, _data: rawptr, _size: c.uint32_t),

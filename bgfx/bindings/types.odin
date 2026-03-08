@@ -9,7 +9,7 @@ import "core:c"
 fatal_t :: enum c.int {
     DEBUG_CHECK              = 0,
     INVALID_SHADER           = 1,
-    UNABLE_TO_INITIALIZE     = 1,
+    UNABLE_TO_INITIALIZE     = 2,
     UNABLE_TO_CREATE_TEXTURE = 3,
     DEVICE_LOST              = 4,
     COUNT                    = 5,
@@ -297,6 +297,12 @@ render_frame_t :: enum c.int {
     COUNT      = 4,
 }
 
+native_window_handle_type_t :: enum c.int {
+    DEFAULT = 0,
+    WAYLAND = 1,
+    COUNT   = 2,
+}
+
 view_id_t :: u16
 
 allocator_interface_t :: struct {
@@ -457,7 +463,6 @@ caps_t :: struct {
  */
 internal_data_t :: struct {
     caps: ^caps_t,    /** Renderer capabilities.                   */
-    // @note(zh): renamed context -> ctx, since it's a keyword in Odin
     ctx: rawptr,      /** GL context, or D3D device.               */
 }
 
@@ -473,7 +478,8 @@ platform_data_t :: struct {
      * context/device if renderer API supports it.
      */
     nwh: rawptr,
-    ctx: rawptr,            /** GL context, or D3D device. If `NULL`, bgfx will create context/device. */
+    ctx: rawptr,             /** GL context, D3D device, or Vulkan device. If `NULL`, bgfx will create context/device. */
+    queue: rawptr,           /** D3D12 queue. If `NULL`, bgfx will create queue. */
     
     /**
      * GL back-buffer, or D3D render target view. If `NULL` bgfx will
@@ -486,6 +492,7 @@ platform_data_t :: struct {
      * depth/stencil surface.
      */
     backBufferDS: rawptr,
+    type: native_window_handle_type_t, /** Native window handle type. */
 }
 
 /**
@@ -493,12 +500,14 @@ platform_data_t :: struct {
  *
  */
 resolution_t :: struct {
-    format:          texture_format_t,    /** Backbuffer format.                       */
-    width:           c.uint32_t,          /** Backbuffer width.                        */
-    height:          c.uint32_t,          /** Backbuffer height.                       */
-    reset:           c.uint32_t,          /** Reset parameters.                        */
-    numBackBuffers:  c.uint8_t,           /** Number of back buffers.                  */
-    maxFrameLatency: c.uint8_t,           /** Maximum frame latency.                   */
+    formatColor:        texture_format_t, /** Backbuffer color format.                 */
+    formatDepthStencil: texture_format_t, /** Backbuffer depth/stencil format.         */
+    width:              c.uint32_t,       /** Backbuffer width.                        */
+    height:             c.uint32_t,       /** Backbuffer height.                       */
+    reset:              c.uint32_t,       /** Reset parameters.                        */
+    numBackBuffers:     c.uint8_t,        /** Number of back buffers.                  */
+    maxFrameLatency:    c.uint8_t,        /** Maximum frame latency.                   */
+    debugTextScale:     c.uint8_t,        /** Scale factor for debug text.             */
 }
 
 /**
@@ -506,10 +515,11 @@ resolution_t :: struct {
  *
  */
 init_limits_t :: struct {
-    maxEncoders:       c.uint16_t,  /** Maximum number of encoder threads.       */
-    minResourceCbSize: c.uint32_t,  /** Minimum resource command buffer size.    */
-    transientVbSize:   c.uint32_t,  /** Maximum transient vertex buffer size.    */
-    transientIbSize:   c.uint32_t,  /** Maximum transient index buffer size.     */
+    maxEncoders:          c.uint16_t, /** Maximum number of encoder threads.       */
+    minResourceCbSize:    c.uint32_t, /** Minimum resource command buffer size.    */
+    maxTransientVbSize:   c.uint32_t, /** Maximum transient vertex buffer size.    */
+    maxTransientIbSize:   c.uint32_t, /** Maximum transient index buffer size.     */
+    minUniformBufferSize: c.uint32_t, /** Minimum uniform buffer size.             */
 }
 
 /**
@@ -543,6 +553,7 @@ init_t :: struct {
     capabilities: c.uint64_t,      /** Capabilities initialization mask (default: UINT64_MAX). */
     debug:        c.bool,          /** Enable device for debuging.              */
     profile:      c.bool,          /** Enable device for profiling.             */
+    fallback:     c.bool,          /** Enable fallback to next available renderer. */
     platformData: platform_data_t, /** Platform data.                           */
     resolution:   resolution_t,    /** Backbuffer resolution and reset parameters. See: `bgfx::Resolution`. */
     limits:       init_limits_t,   /** Configurable runtime limits parameters.  */

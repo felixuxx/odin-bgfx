@@ -10,6 +10,7 @@ package bgfx_hello_world
 */
 
 import "core:c"
+import "core:fmt"
 import "core:os"
 
 import "vendor:glfw"
@@ -17,7 +18,7 @@ import "vendor:glfw"
 import "../bgfx"
 
 main :: proc() {
-    if glfw.Init() == 0 {
+    if !glfw.Init() {
         os.exit(1)
     }
 
@@ -31,14 +32,45 @@ main :: proc() {
     bgfx.render_frame(0)
 
     w, h: c.int32_t
-    w, h = glfw.GetWindowSize(window)
+    w, h = glfw.GetFramebufferSize(window)
+    for w <= 0 || h <= 0 {
+        glfw.WaitEvents()
+        if glfw.WindowShouldClose(window) {
+            bgfx.shutdown()
+            glfw.Terminate()
+            return
+        }
+        w, h = glfw.GetFramebufferSize(window)
+    }
 
     pd: bgfx.platform_data_t
-    pd.nwh = glfw.GetWin32Window(window)
+    when ODIN_OS == .Windows {
+        pd.nwh = glfw.GetWin32Window(window)
+    } else when ODIN_OS == .Linux {
+        is_wayland := glfw.GetPlatform != nil && glfw.GetPlatform() == glfw.PLATFORM_WAYLAND
+
+        if is_wayland && glfw.GetWaylandDisplay != nil && glfw.GetWaylandWindow != nil {
+            pd.ndt = glfw.GetWaylandDisplay()
+            pd.nwh = glfw.GetWaylandWindow(window)
+            pd.type = bgfx.NATIVE_WINDOW_HANDLE_TYPE_WAYLAND
+        } else if glfw.GetX11Display != nil && glfw.GetX11Window != nil {
+            pd.ndt = rawptr(glfw.GetX11Display())
+            pd.nwh = rawptr(uintptr(glfw.GetX11Window(window)))
+        }
+
+        if pd.ndt == nil || pd.nwh == nil {
+            if is_wayland {
+                fmt.eprintln("Unable to get valid GLFW Wayland/X11 native handles for bgfx.")
+            } else {
+                fmt.eprintln("Unable to get valid GLFW X11 native handles for bgfx.")
+            }
+            os.exit(1)
+        }
+    }
     bgfx.set_platform_data(&pd)
 
     init: bgfx.init_t
-    init.type = bgfx.RENDERER_TYPE_COUNT
+    bgfx.init_ctor(&init)
     init.platformData = pd
     init.resolution.width  = c.uint32_t(w)
     init.resolution.height = c.uint32_t(h)
@@ -52,9 +84,14 @@ main :: proc() {
         glfw.PollEvents()
 
         old_width, old_height := w, h
-        w, h = glfw.GetWindowSize(window)
+        w, h = glfw.GetFramebufferSize(window)
+
+        if w <= 0 || h <= 0 {
+            continue
+        }
+
         if w != old_width || h != old_height {
-            bgfx.reset(c.uint32_t(w), c.uint32_t(h), bgfx.RESET_VSYNC, init.resolution.format)
+            bgfx.reset(c.uint32_t(w), c.uint32_t(h), bgfx.RESET_VSYNC, init.resolution.formatColor)
             bgfx.set_view_rect_ratio(0, 0, 0, bgfx.BACKBUFFER_RATIO_EQUAL)
         }
 

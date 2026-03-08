@@ -226,6 +226,11 @@ RENDER_FRAME_TIMEOUT    :: bgfx.render_frame_t.TIMEOUT
 RENDER_FRAME_EXITING    :: bgfx.render_frame_t.EXITING
 RENDER_FRAME_COUNT      :: bgfx.render_frame_t.COUNT
 
+native_window_handle_type_t                   :: bgfx.native_window_handle_type_t
+NATIVE_WINDOW_HANDLE_TYPE_DEFAULT             :: bgfx.native_window_handle_type_t.DEFAULT
+NATIVE_WINDOW_HANDLE_TYPE_WAYLAND             :: bgfx.native_window_handle_type_t.WAYLAND
+NATIVE_WINDOW_HANDLE_TYPE_COUNT               :: bgfx.native_window_handle_type_t.COUNT
+
 function_id_t                                                    :: bgfx.function_id_t
 FUNCTION_ID_ATTACHMENT_INIT                                      :: bgfx.function_id_t.ATTACHMENT_INIT
 FUNCTION_ID_VERTEX_LAYOUT_BEGIN                                  :: bgfx.function_id_t.VERTEX_LAYOUT_BEGIN
