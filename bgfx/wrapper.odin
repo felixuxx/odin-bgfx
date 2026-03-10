@@ -239,6 +239,9 @@ FUNCTION_ID_VERTEX_LAYOUT_DECODE                                 :: bgfx.functio
 FUNCTION_ID_VERTEX_LAYOUT_HAS                                    :: bgfx.function_id_t.VERTEX_LAYOUT_HAS
 FUNCTION_ID_VERTEX_LAYOUT_SKIP                                   :: bgfx.function_id_t.VERTEX_LAYOUT_SKIP
 FUNCTION_ID_VERTEX_LAYOUT_END                                    :: bgfx.function_id_t.VERTEX_LAYOUT_END
+FUNCTION_ID_VERTEX_LAYOUT_GET_OFFSET                             :: bgfx.function_id_t.VERTEX_LAYOUT_GET_OFFSET
+FUNCTION_ID_VERTEX_LAYOUT_GET_STRIDE                             :: bgfx.function_id_t.VERTEX_LAYOUT_GET_STRIDE
+FUNCTION_ID_VERTEX_LAYOUT_GET_SIZE                               :: bgfx.function_id_t.VERTEX_LAYOUT_GET_SIZE
 FUNCTION_ID_VERTEX_PACK                                          :: bgfx.function_id_t.VERTEX_PACK
 FUNCTION_ID_VERTEX_UNPACK                                        :: bgfx.function_id_t.VERTEX_UNPACK
 FUNCTION_ID_VERTEX_CONVERT                                       :: bgfx.function_id_t.VERTEX_CONVERT
@@ -320,6 +323,7 @@ FUNCTION_ID_SET_FRAME_BUFFER_NAME                                :: bgfx.functio
 FUNCTION_ID_GET_TEXTURE                                          :: bgfx.function_id_t.GET_TEXTURE
 FUNCTION_ID_DESTROY_FRAME_BUFFER                                 :: bgfx.function_id_t.DESTROY_FRAME_BUFFER
 FUNCTION_ID_CREATE_UNIFORM                                       :: bgfx.function_id_t.CREATE_UNIFORM
+FUNCTION_ID_CREATE_UNIFORM_WITH_FREQ                             :: bgfx.function_id_t.CREATE_UNIFORM_WITH_FREQ
 FUNCTION_ID_GET_UNIFORM_INFO                                     :: bgfx.function_id_t.GET_UNIFORM_INFO
 FUNCTION_ID_DESTROY_UNIFORM                                      :: bgfx.function_id_t.DESTROY_UNIFORM
 FUNCTION_ID_CREATE_OCCLUSION_QUERY                               :: bgfx.function_id_t.CREATE_OCCLUSION_QUERY
@@ -327,6 +331,7 @@ FUNCTION_ID_GET_RESULT                                           :: bgfx.functio
 FUNCTION_ID_DESTROY_OCCLUSION_QUERY                              :: bgfx.function_id_t.DESTROY_OCCLUSION_QUERY
 FUNCTION_ID_SET_PALETTE_COLOR                                    :: bgfx.function_id_t.SET_PALETTE_COLOR
 FUNCTION_ID_SET_PALETTE_COLOR_RGBA8                              :: bgfx.function_id_t.SET_PALETTE_COLOR_RGBA8
+FUNCTION_ID_SET_PALETTE_COLOR_RGBA32F                            :: bgfx.function_id_t.SET_PALETTE_COLOR_RGBA32F
 FUNCTION_ID_SET_VIEW_NAME                                        :: bgfx.function_id_t.SET_VIEW_NAME
 FUNCTION_ID_SET_VIEW_RECT                                        :: bgfx.function_id_t.SET_VIEW_RECT
 FUNCTION_ID_SET_VIEW_RECT_RATIO                                  :: bgfx.function_id_t.SET_VIEW_RECT_RATIO
@@ -336,6 +341,9 @@ FUNCTION_ID_SET_VIEW_CLEAR_MRT                                   :: bgfx.functio
 FUNCTION_ID_SET_VIEW_MODE                                        :: bgfx.function_id_t.SET_VIEW_MODE
 FUNCTION_ID_SET_VIEW_FRAME_BUFFER                                :: bgfx.function_id_t.SET_VIEW_FRAME_BUFFER
 FUNCTION_ID_SET_VIEW_TRANSFORM                                   :: bgfx.function_id_t.SET_VIEW_TRANSFORM
+FUNCTION_ID_SET_VIEW_SHADING_RATE                                :: bgfx.function_id_t.SET_VIEW_SHADING_RATE
+FUNCTION_ID_SET_VIEW_UNIFORM                                     :: bgfx.function_id_t.SET_VIEW_UNIFORM
+FUNCTION_ID_SET_FRAME_UNIFORM                                    :: bgfx.function_id_t.SET_FRAME_UNIFORM
 FUNCTION_ID_SET_VIEW_ORDER                                       :: bgfx.function_id_t.SET_VIEW_ORDER
 FUNCTION_ID_RESET_VIEW                                           :: bgfx.function_id_t.RESET_VIEW
 FUNCTION_ID_ENCODER_BEGIN                                        :: bgfx.function_id_t.ENCODER_BEGIN
@@ -369,6 +377,7 @@ FUNCTION_ID_ENCODER_TOUCH                                        :: bgfx.functio
 FUNCTION_ID_ENCODER_SUBMIT                                       :: bgfx.function_id_t.ENCODER_SUBMIT
 FUNCTION_ID_ENCODER_SUBMIT_OCCLUSION_QUERY                       :: bgfx.function_id_t.ENCODER_SUBMIT_OCCLUSION_QUERY
 FUNCTION_ID_ENCODER_SUBMIT_INDIRECT                              :: bgfx.function_id_t.ENCODER_SUBMIT_INDIRECT
+FUNCTION_ID_ENCODER_SUBMIT_INDIRECT_COUNT                        :: bgfx.function_id_t.ENCODER_SUBMIT_INDIRECT_COUNT
 FUNCTION_ID_ENCODER_SET_COMPUTE_INDEX_BUFFER                     :: bgfx.function_id_t.ENCODER_SET_COMPUTE_INDEX_BUFFER
 FUNCTION_ID_ENCODER_SET_COMPUTE_VERTEX_BUFFER                    :: bgfx.function_id_t.ENCODER_SET_COMPUTE_VERTEX_BUFFER
 FUNCTION_ID_ENCODER_SET_COMPUTE_DYNAMIC_INDEX_BUFFER             :: bgfx.function_id_t.ENCODER_SET_COMPUTE_DYNAMIC_INDEX_BUFFER
@@ -414,6 +423,7 @@ FUNCTION_ID_TOUCH                                                :: bgfx.functio
 FUNCTION_ID_SUBMIT                                               :: bgfx.function_id_t.SUBMIT
 FUNCTION_ID_SUBMIT_OCCLUSION_QUERY                               :: bgfx.function_id_t.SUBMIT_OCCLUSION_QUERY
 FUNCTION_ID_SUBMIT_INDIRECT                                      :: bgfx.function_id_t.SUBMIT_INDIRECT
+FUNCTION_ID_SUBMIT_INDIRECT_COUNT                                :: bgfx.function_id_t.SUBMIT_INDIRECT_COUNT
 FUNCTION_ID_SET_COMPUTE_INDEX_BUFFER                             :: bgfx.function_id_t.SET_COMPUTE_INDEX_BUFFER
 FUNCTION_ID_SET_COMPUTE_VERTEX_BUFFER                            :: bgfx.function_id_t.SET_COMPUTE_VERTEX_BUFFER
 FUNCTION_ID_SET_COMPUTE_DYNAMIC_INDEX_BUFFER                     :: bgfx.function_id_t.SET_COMPUTE_DYNAMIC_INDEX_BUFFER
@@ -424,6 +434,7 @@ FUNCTION_ID_DISPATCH                                             :: bgfx.functio
 FUNCTION_ID_DISPATCH_INDIRECT                                    :: bgfx.function_id_t.DISPATCH_INDIRECT
 FUNCTION_ID_DISCARD                                              :: bgfx.function_id_t.DISCARD
 FUNCTION_ID_BLIT                                                 :: bgfx.function_id_t.BLIT
+FUNCTION_ID_GET_INTERFACE                                        :: bgfx.function_id_t.GET_INTERFACE
 FUNCTION_ID_COUNT                                                :: bgfx.function_id_t.COUNT
 
 view_id_t :: bgfx.view_id_t
@@ -476,6 +487,9 @@ vertex_layout_decode                                 :: bgfx.vertex_layout_decod
 vertex_layout_has                                    :: bgfx.vertex_layout_has
 vertex_layout_skip                                   :: bgfx.vertex_layout_skip
 vertex_layout_end                                    :: bgfx.vertex_layout_end
+vertex_layout_get_offset                             :: bgfx.vertex_layout_get_offset
+vertex_layout_get_stride                             :: bgfx.vertex_layout_get_stride
+vertex_layout_get_size                               :: bgfx.vertex_layout_get_size
 vertex_pack                                          :: bgfx.vertex_pack
 vertex_unpack                                        :: bgfx.vertex_unpack
 vertex_convert                                       :: bgfx.vertex_convert
@@ -557,6 +571,7 @@ set_frame_buffer_name                                :: bgfx.set_frame_buffer_na
 get_texture                                          :: bgfx.get_texture
 destroy_frame_buffer                                 :: bgfx.destroy_frame_buffer
 create_uniform                                       :: bgfx.create_uniform
+create_uniform_with_freq                             :: bgfx.create_uniform_with_freq
 get_uniform_info                                     :: bgfx.get_uniform_info
 destroy_uniform                                      :: bgfx.destroy_uniform
 create_occlusion_query                               :: bgfx.create_occlusion_query
@@ -564,6 +579,7 @@ get_result                                           :: bgfx.get_result
 destroy_occlusion_query                              :: bgfx.destroy_occlusion_query
 set_palette_color                                    :: bgfx.set_palette_color
 set_palette_color_rgba8                              :: bgfx.set_palette_color_rgba8
+set_palette_color_rgba32f                            :: bgfx.set_palette_color_rgba32f
 set_view_name                                        :: bgfx.set_view_name
 set_view_rect                                        :: bgfx.set_view_rect
 set_view_rect_ratio                                  :: bgfx.set_view_rect_ratio
@@ -573,6 +589,9 @@ set_view_clear_mrt                                   :: bgfx.set_view_clear_mrt
 set_view_mode                                        :: bgfx.set_view_mode
 set_view_frame_buffer                                :: bgfx.set_view_frame_buffer
 set_view_transform                                   :: bgfx.set_view_transform
+set_view_shading_rate                                :: bgfx.set_view_shading_rate
+set_view_uniform                                     :: bgfx.set_view_uniform
+set_frame_uniform                                    :: bgfx.set_frame_uniform
 set_view_order                                       :: bgfx.set_view_order
 reset_view                                           :: bgfx.reset_view
 encoder_begin                                        :: bgfx.encoder_begin
@@ -606,6 +625,7 @@ encoder_touch                                        :: bgfx.encoder_touch
 encoder_submit                                       :: bgfx.encoder_submit
 encoder_submit_occlusion_query                       :: bgfx.encoder_submit_occlusion_query
 encoder_submit_indirect                              :: bgfx.encoder_submit_indirect
+encoder_submit_indirect_count                        :: bgfx.encoder_submit_indirect_count
 encoder_set_compute_index_buffer                     :: bgfx.encoder_set_compute_index_buffer
 encoder_set_compute_vertex_buffer                    :: bgfx.encoder_set_compute_vertex_buffer
 encoder_set_compute_dynamic_index_buffer             :: bgfx.encoder_set_compute_dynamic_index_buffer
@@ -643,7 +663,7 @@ set_transient_vertex_buffer                          :: bgfx.set_transient_verte
 set_transient_vertex_buffer_with_layout              :: bgfx.set_transient_vertex_buffer_with_layout
 set_vertex_count                                     :: bgfx.set_vertex_count
 set_instance_data_buffer                             :: bgfx.set_instance_data_buffer
-set_instance_data_from_vertex_buffe                  :: bgfx.set_instance_data_from_vertex_buffe
+set_instance_data_from_vertex_buffer                 :: bgfx.set_instance_data_from_vertex_buffer
 set_instance_data_from_dynamic_vertex_buffer         :: bgfx.set_instance_data_from_dynamic_vertex_buffer
 set_instance_count                                   :: bgfx.set_instance_count
 set_texture                                          :: bgfx.set_texture
@@ -651,6 +671,7 @@ touch                                                :: bgfx.touch
 submit                                               :: bgfx.submit
 submit_occlusion_query                               :: bgfx.submit_occlusion_query
 submit_indirect                                      :: bgfx.submit_indirect
+submit_indirect_count                                :: bgfx.submit_indirect_count
 set_compute_index_buffer                             :: bgfx.set_compute_index_buffer
 set_compute_vertex_buffer                            :: bgfx.set_compute_vertex_buffer
 set_compute_dynamic_index_buffer                     :: bgfx.set_compute_dynamic_index_buffer
@@ -661,3 +682,4 @@ dispatch                                             :: bgfx.dispatch
 dispatch_indirect                                    :: bgfx.dispatch_indirect
 discard                                              :: bgfx.discard
 blit                                                 :: bgfx.blit
+get_interface                                        :: bgfx.get_interface

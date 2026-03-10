@@ -144,6 +144,10 @@ foreign lib {
      */
     vertex_layout_end:: proc(_this: ^vertex_layout_t) ---
 
+    vertex_layout_get_offset :: proc(_this: ^vertex_layout_t, _attrib: attrib_t) -> c.uint16_t ---
+    vertex_layout_get_stride :: proc(_this: ^vertex_layout_t) -> c.uint16_t ---
+    vertex_layout_get_size   :: proc(_this: ^vertex_layout_t, _num: c.uint32_t) -> c.uint32_t ---
+
     /**
      * Pack vertex attribute into vertex stream format.
      *
@@ -1272,6 +1276,7 @@ foreign lib {
      *
      */
     create_uniform :: proc(_name: cstring, _type: uniform_type_t, _num: c.uint16_t) -> uniform_handle_t ---
+    create_uniform_with_freq :: proc(_name: cstring, _freq: c.int, _type: uniform_type_t, _num: c.uint16_t) -> uniform_handle_t ---
 
     /**
      * Retrieve uniform info.
@@ -1333,6 +1338,7 @@ foreign lib {
      *
      */
     set_palette_color_rgba8 :: proc(_index: c.uint8_t, _rgba: c.uint32_t) ---
+    set_palette_color_rgba32f :: proc(_index: c.uint8_t, _r, _g, _b, _a: c.float) ---
 
     /**
      * Set view name.
@@ -1456,6 +1462,9 @@ foreign lib {
      *
      */
     set_view_transform :: proc(_id: view_id_t, _view, _proj: rawptr) ---
+    set_view_shading_rate :: proc(_id: view_id_t, _shadingRate: c.int) ---
+    set_view_uniform :: proc(_id: view_id_t, _handle: uniform_handle_t, _value: rawptr, _num: c.uint16_t) ---
+    set_frame_uniform :: proc(_handle: uniform_handle_t, _value: rawptr, _num: c.uint16_t) ---
 
     /**
      * Post submit view reordering.
@@ -1831,6 +1840,8 @@ foreign lib {
      *
      */
     encoder_submit_indirect :: proc(_this: ^encoder_t, _id: view_id_t, _program: program_handle_t, _indirectHandle: indirect_buffer_handle_t, _start, _num: c.uint16_t, _depth: c.uint32_t, _flags: c.uint8_t) ---
+    encoder_submit_indirect_count :: proc(_this: ^encoder_t, _id: view_id_t, _program: program_handle_t, _indirectHandle: indirect_buffer_handle_t, _start: c.uint32_t,
+                                          _numHandle: index_buffer_handle_t, _numIndex, _numMax, _depth: c.uint32_t, _flags: c.uint8_t) ---
     
     /**
      * Set compute index buffer.
@@ -2311,7 +2322,7 @@ foreign lib {
      *  Set instance data buffer for draw primitive.
      *
      */
-    set_instance_data_from_vertex_buffe :: proc(_handle: vertex_buffer_handle_t, _startVertex, _num: c.uint32_t) ---
+    set_instance_data_from_vertex_buffer :: proc(_handle: vertex_buffer_handle_t, _startVertex, _num: c.uint32_t) ---
 
     /**
      * Set instance data buffer for draw primitive.
@@ -2398,6 +2409,8 @@ foreign lib {
      */
     submit_indirect :: proc(_id: view_id_t, _program: program_handle_t, _indirectHandle: indirect_buffer_handle_t, _start, _num: c.uint16_t, _depth: c.uint32_t,
                             _flags: c.uint8_t) ---
+    submit_indirect_count :: proc(_id: view_id_t, _program: program_handle_t, _indirectHandle: indirect_buffer_handle_t, _start: c.uint32_t,
+                                  _numHandle: index_buffer_handle_t, _numIndex, _numMax, _depth: c.uint32_t, _flags: c.uint8_t) ---
 
     /**
      * Set compute index buffer.
@@ -2523,6 +2536,8 @@ foreign lib {
      */
     blit :: proc(_id: view_id_t, _dst: texture_handle_t, _dstMip: c.uint8_t, _dstX, _dstY, _dstZ: c.uint16_t, _src: texture_handle_t,
                  _srcMip: c.uint8_t, _srcX, _srcY, _srcZ, _width, _height, _depth: c.uint16_t) ---
+
+    get_interface :: proc(_version: c.uint32_t) -> rawptr ---
 }
 
 /*
